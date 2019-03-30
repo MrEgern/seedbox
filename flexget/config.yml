@@ -20,17 +20,9 @@ templates:
           set:
             path: /data/serier/{{ series_name }}/Season {{ series_season }}/
       720p:
-        - South Park
+        - Eksempel Navn
       1080p:
-        - Arrow
-        - The Flash
-        - The Big Bang Theory
-        - Game of Thrones
-        - The Deuce
-        - Vikings
-        - Modern Family
-        - Ray Donovan
-        - The Simpsons
+        - Eksempel Navn
     regexp:
       reject_excluding:
         - DKsubs|NORDiC
@@ -48,10 +40,9 @@ templates:
           set:
             path: /data/serier/{{ series_name }}/Season {{ series_season }}/
       720p:
-        - Natholdet
-        - Gintberg Paa Kanten
+        - Eksempel Navn
       1080p:
-        - Politijagt USA
+        - Eksempel Navn
     regexp:
       reject_excluding:
         - danish|DANiSH|Danish

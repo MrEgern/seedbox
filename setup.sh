@@ -18,9 +18,7 @@ chown box:box /data -R
 # Rtorrent
 su - box -c 'wget -O .rtorrent.rc https://github.com/ninstaah/seedbox/raw/master/rtorrent/rtorrent.rc'
 su - box -c 'mkdir .rtorrent downloads torrents'
-
 wget -O /etc/systemd/system/rtorrent.service https://github.com/ninstaah/seedbox/raw/master/systemd/rtorrent.service
-
 systemctl enable rtorrent
 systemctl start rtorrent
 
@@ -29,22 +27,17 @@ su - box -c 'git clone https://github.com/jfurrow/flood.git'
 su - box -c 'cp flood/config.template.js flood/config.js'
 su - box -c 'cd flood/ && npm install'
 su - box -c 'cd flood/ && npm run build'
-
 wget -O /etc/systemd/system/flood.service https://github.com/ninstaah/seedbox/raw/master/systemd/flood.service
 wget -O /etc/nginx/conf.d/flood.conf https://github.com/ninstaah/seedbox/raw/master/nginx/flood.conf
-
 systemctl enable flood
 systemctl start flood
 
 # Plex media server
 PLEX_URL="https://plex.tv/downloads/latest/1?channel=8&build=linux-ubuntu-x86_64&distro=redhat"
 wget -O /tmp/plexmediaserver.rpm "$PLEX_URL"
-
 yum install -y /tmp/plexmediaserver.rpm
 rm -rf /tmp/plexmediaserver.rpm
-
 wget -O /etc/nginx/conf.d/plex.conf https://github.com/ninstaah/seedbox/raw/master/nginx/plex.conf
-
 systemctl enable plexmediaserver
 systemctl restart plexmediaserver
 
@@ -61,7 +54,6 @@ python3.7 -m pip install --upgrade pip
 
 # Flexget
 pip install flexget rarfile
-
 su - box -c 'mkdir flexget/'
 su - box -c 'wget -O flexget/config.yml https://github.com/ninstaah/seedbox/raw/master/config.yml'
 su - box -c 'wget -O flexget/variables.yml https://github.com/ninstaah/seedbox/raw/master/variables.yml'
@@ -70,13 +62,12 @@ su - box -c 'cd ~/flexget/ && flexget daemon start -d --autoreload-config'
 
 # Filebrowser
 curl -fsSL https://filebrowser.xyz/get.sh | bash
-
 wget -O /etc/nginx/conf.d/filebrowser.conf https://github.com/ninstaah/seedbox/raw/master/nginx/filebrowser.conf
 wget -O /etc/systemd/system/filebrowser.service https://github.com/ninstaah/seedbox/raw/master/systemd/filebrowser.service
-
 systemctl enable filebrowser
 systemctl restart filebrowser
 
+# Domæne opsætning
 echo -e "\nIndtast domæne (example.com):"
 read DOMAIN
 
@@ -87,10 +78,20 @@ sed -i "s/example.com/$DOMAIN/g" /etc/nginx/conf.d/filebrowser.conf
 systemctl enable nginx
 systemctl start nginx
 
-certbot --nginx -d $DOMAIN.com --non-interactive --agree-tos --register-unsafely-without-email --redirect
-certbot --nginx -d dl.$DOMAIN.com --non-interactive --agree-tos --register-unsafely-without-email --redirect
-certbot --nginx -d file.$DOMAIN.com --non-interactive --agree-tos --register-unsafely-without-email --redirect
+# SSL certifikater
+certbot --nginx -d $DOMAIN --non-interactive --agree-tos --register-unsafely-without-email --redirect
+certbot --nginx -d dl.$DOMAIN --non-interactive --agree-tos --register-unsafely-without-email --redirect
+certbot --nginx -d file.$DOMAIN --non-interactive --agree-tos --register-unsafely-without-email --redirect
 
+# Bruger vejledning
+echo -e "### Opsætning af Plex"
 echo -e 'På din client (Win m. openssh klient, Mac, Linux):'
-echo -e 'ssh server.ip.address -L 8888:localhost:32400'
-echo -e "\nGå til http://localhost:8888/web \n- for Plex opsætningen"
+echo -e "ssh root@$(curl -s ifconfig.me) -L 8888:localhost:32400"
+echo -e "\nGå til http://localhost:8888/web \n- for Plex opsætningen\n"
+
+echo -e "### Opsætning af Flexget"
+echo -e "Gå til https://file.$DOMAIN (admin/admin - husk at ændre dette!)"
+echo -e "1. Gå til flexget/config.yml (link: https://file.$DOMAIN/files/flexget/config.yml)"
+echo -e "2. Gå til linje 23 & 25, indsæt serie liste med danske/nordiske undertekster"
+echo -e "3. Gå til linje 43 & 45, Indsæt serie liste med dansk tale (dvs. ingen subs!)"
+echo -e "4. Gem filen og vent på Flexget genindlæser config.yml (ved fejl i filen, indlæses der ikke en ny)"
