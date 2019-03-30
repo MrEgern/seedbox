@@ -6,7 +6,7 @@ templates:
       max_retries: 3
     seen: local
 
-  danish_subs:
+  dk_subs:
     require_field: series_name
     exists_series: '/data/serier/{{series_name}}'
     series:
@@ -27,7 +27,7 @@ templates:
       reject_excluding:
         - DKsubs|NORDiC
 
-  danish:
+  dk_tale:
     require_field: series_name
     series:
       settings:
@@ -83,36 +83,62 @@ tasks:
       keep_dirs: no
       delete_archive: no
 
-  substance:
-    rss: '{? rss.db.substance ?}'
+  watchlist:
+    priority: 1
+    trakt_list:
+      account: ninstaah
+      list: watchlist
+      type: movies
+    accept_all: yes
+    seen: local
+    list_add:
+      - movie_list: film_list 
+  film-rapidcows:
+    priority: 2
+    rss: '{? rss.db.film-rapidcows ?}'
+    quality: 1080p
+    imdb_lookup: yes
+    list_match:
+      from:
+        - movie_list: film_list
+    rtorrent:
+      uri: scgi://localhost:5000
+      path: /data/film/
+
+  tv-substance:
+    rss: '{? rss.db.tv-substance ?}'
     rtorrent:
       uri: scgi://localhost:5000
       path: /data/tmp
     template:
-      - danish_subs
-  dbretail:
-    rss: '{? rss.db.dbretail ?}'
+      - dk_subs
+
+  tv-dbretail:
+    rss: '{? rss.db.tv-dbretail ?}'
     rtorrent:
       uri: scgi://localhost:5000
       path: /data/tmp
     template:
-      - danish_subs
+      - dk_subs
+
   tv:
     rss: '{? rss.db.tv ?}'
     rtorrent:
       uri: scgi://localhost:5000
       path: /data/tmp
     template:
-      - danish_subs
-  danish:
-    rss: '{? rss.db.danish ?}'
+      - dk_subs
+
+  dansk-tv:
+    rss: '{? rss.db.tv-dansk ?}'
     rtorrent:
       uri: scgi://localhost:5000
       path: /data/tmp
     template:
-      - danish
+      - dk_tale
+  
 schedules:
-  - tasks: [substance, dbretail, tv, danish]
+  - tasks: [tv-substance, tv-dbretail, tv, tv-dansk, film-rapidcows]
     interval:
       minutes: 15
   - tasks: [unrar-series, sync-series]
