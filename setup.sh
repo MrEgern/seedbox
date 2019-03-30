@@ -85,13 +85,16 @@ certbot --nginx -d file.$DOMAIN --non-interactive --agree-tos --register-unsafel
 
 # Bruger vejledning
 echo -e "### Opsætning af Plex"
-echo -e 'På din client (Win m. openssh klient, Mac, Linux):'
 echo -e "ssh root@$(curl -s ifconfig.me) -L 8888:localhost:32400"
-echo -e "\nGå til http://localhost:8888/web \n- for Plex opsætningen\n"
+echo -e "Gå til http://localhost:8888/web"
 
 echo -e "### Opsætning af Flexget"
 echo -e "Gå til https://file.$DOMAIN (admin/admin - husk at ændre dette!)"
-echo -e "1. Gå til flexget/config.yml (link: https://file.$DOMAIN/files/flexget/config.yml)"
-echo -e "2. Gå til linje 23 & 25, indsæt serie liste med danske/nordiske undertekster"
-echo -e "3. Gå til linje 43 & 45, Indsæt serie liste med dansk tale (dvs. ingen subs!)"
-echo -e "4. Gem filen og vent på Flexget genindlæser config.yml (ved fejl i filen, indlæses der ikke en ny)"
+echo -e "1. Gå til https://file.$DOMAIN/files/flexget/variables.yml"
+echo -e "2. Åben tab med https://danishbits.org/rss.php"
+echo -e "3. Kopier links fra step 2 til deres pladser i flexget/variables.yml (step 1)"
+echo -e "4. Gem https://file.$DOMAIN/files/flexget/variables.yml)"
+echo -e "5. Gå til https://file.$DOMAIN/files/flexget/config.yml)"
+echo -e "6. Gå til linje 23 & 25, indsæt serie liste med danske/nordiske undertekster"
+echo -e "7. Gå til linje 43 & 45, Indsæt serie liste med dansk tale (dvs. ingen subs!)"
+echo -e "8. Gem filen og vent på Flexget genindlæser config.yml (ved fejl i filen, indlæses der ikke en ny)"

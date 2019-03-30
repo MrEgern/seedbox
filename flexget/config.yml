@@ -1,99 +1,39 @@
 variables: variables.yml
 
 templates:
-  global:
-    retry_failed:
-      max_retries: 3
-    seen: local
-
-  dk_subs:
-    require_field: series_name
-    exists_series: '/data/serier/{{series_name}}'
-    series:
-      settings:
-        720p:
-          identified_by: ep
-          set:
-            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
-        1080p:
-          identified_by: ep
-          set:
-            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
-      720p:
-        - Eksempel Navn
-      1080p:
-        - Eksempel Navn
+  tv:
+    quality: 720p|1080p
+    exists_series:
+      - '/data/serier/{{series_name}}'
+    set:
+      path: /data/serier/{{series_name}}/Season {{series_season}}
     regexp:
       reject_excluding:
-        - DKsubs|NORDiC
+        - DKsubs|NORDiC|danish|DANiSH|Danish
 
-  dk_tale:
-    require_field: series_name
-    series:
+  tv-queue-request:
+    template: tv
+    configure_series:
+      from:
+        trakt_list:
+          username: ninstaah
+          list: serier
+          type: shows
       settings:
-        720p:
-          identified_by: ep
-          set:
-            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
-        1080p:
-          identified_by: ep
-          set:
-            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
-      720p:
-        - Eksempel Navn
-      1080p:
-        - Eksempel Navn
-    regexp:
-      reject_excluding:
-        - danish|DANiSH|Danish
+        propers: no
 
 tasks:
-  sync-series:
-    priority: 1
-    manual: yes
-    filesystem:
-      path:
-        - /data/serier/
-      regexp: '.*\.(mp4|avi|mkv)$'
-      recursive: yes
-    disable: builtins
-    configure_series:
-      settings:
-        set:
-          tracking: no
-      from:
-        filesystem:
-          - /data/serier/
-    exec: echo "Found {{title}}"
-
-  unrar-series:
-    accept_all: yes
-    parsing:
-      series: guessit
-    metainfo_series: yes
-    require_field:
-      - series_name
-      - series_season
-    filesystem:
-      path: '/data/serier/'
-      recursive: yes
-      regexp: '.*\.(rar|zip)'
-    decompress:
-      to: '/data/serier/{{series_name}}/Season {{series_season}}/'
-      keep_dirs: no
-      delete_archive: no
-
-  watchlist:
+  film:
     priority: 1
     trakt_list:
       account: ninstaah
-      list: watchlist
+      list: film
       type: movies
     accept_all: yes
-    seen: local
     list_add:
       - movie_list: film_list 
-  film-rapidcows:
+
+  film_dl:
     priority: 2
     rss: '{? rss.db.film-rapidcows ?}'
     quality: 1080p
@@ -105,42 +45,38 @@ tasks:
       uri: scgi://localhost:5000
       path: /data/film/
 
-  tv-substance:
-    rss: '{? rss.db.tv-substance ?}'
-    rtorrent:
-      uri: scgi://localhost:5000
-      path: /data/tmp
-    template:
-      - dk_subs
-
-  tv-dbretail:
-    rss: '{? rss.db.tv-dbretail ?}'
-    rtorrent:
-      uri: scgi://localhost:5000
-      path: /data/tmp
-    template:
-      - dk_subs
-
-  tv:
+  serier_tv:
+    priority: 3
+    template: tv-queue-request
     rss: '{? rss.db.tv ?}'
     rtorrent:
       uri: scgi://localhost:5000
-      path: /data/tmp
-    template:
-      - dk_subs
 
-  dansk-tv:
+  serier_tv_dansk:
+    priority: 4
+    template: tv-queue-request
     rss: '{? rss.db.tv-dansk ?}'
     rtorrent:
       uri: scgi://localhost:5000
-      path: /data/tmp
-    template:
-      - dk_tale
+
+  serier_tv_dbretail:
+    priority: 5
+    template: tv-queue-request
+    rss: '{? rss.db.tv-dbretail ?}'
+    rtorrent:
+      uri: scgi://localhost:5000
+
+  serier_tv_substance:
+    priority: 6
+    template: tv-queue-request
+    rss: '{? rss.db.tv-substance ?}'
+    rtorrent:
+      uri: scgi://localhost:5000
   
 schedules:
-  - tasks: [tv-substance, tv-dbretail, tv, tv-dansk, film-rapidcows]
+  - tasks: [film_dl, serier_tv, serier_tv_dansk, serier_tv_dbretail, serier_tv_substance, ]
     interval:
       minutes: 15
-  - tasks: [unrar-series, sync-series]
+  - tasks: [film]
     interval:
-      hours: 2
+      hours: 1
