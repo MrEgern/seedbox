@@ -1,0 +1,129 @@
+variables: variables.yml
+
+templates:
+  global:
+    retry_failed:
+      max_retries: 3
+    seen: local
+
+  danish_subs:
+    require_field: series_name
+    exists_series: '/data/serier/{{series_name}}'
+    series:
+      settings:
+        720p:
+          identified_by: ep
+          set:
+            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
+        1080p:
+          identified_by: ep
+          set:
+            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
+      720p:
+        - South Park
+      1080p:
+        - Arrow
+        - The Flash
+        - The Big Bang Theory
+        - Game of Thrones
+        - The Deuce
+        - Vikings
+        - Modern Family
+        - Ray Donovan
+        - The Simpsons
+    regexp:
+      reject_excluding:
+        - DKsubs|NORDiC
+
+  danish:
+    require_field: series_name
+    series:
+      settings:
+        720p:
+          identified_by: ep
+          set:
+            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
+        1080p:
+          identified_by: ep
+          set:
+            path: /data/serier/{{ series_name }}/Season {{ series_season }}/
+      720p:
+        - Natholdet
+        - Gintberg Paa Kanten
+      1080p:
+        - Politijagt USA
+    regexp:
+      reject_excluding:
+        - danish|DANiSH|Danish
+
+tasks:
+  sync-series:
+    priority: 1
+    manual: yes
+    filesystem:
+      path:
+        - /data/serier/
+      regexp: '.*\.(mp4|avi|mkv)$'
+      recursive: yes
+    disable: builtins
+    configure_series:
+      settings:
+        set:
+          tracking: no
+      from:
+        filesystem:
+          - /data/serier/
+    exec: echo "Found {{title}}"
+
+  unrar-series:
+    accept_all: yes
+    parsing:
+      series: guessit
+    metainfo_series: yes
+    require_field:
+      - series_name
+      - series_season
+    filesystem:
+      path: '/data/serier/'
+      recursive: yes
+      regexp: '.*\.(rar|zip)'
+    decompress:
+      to: '/data/serier/{{series_name}}/Season {{series_season}}/'
+      keep_dirs: no
+      delete_archive: no
+
+  substance:
+    rss: '{? rss.db.substance ?}'
+    rtorrent:
+      uri: scgi://localhost:5000
+      path: /data/tmp
+    template:
+      - danish_subs
+  dbretail:
+    rss: '{? rss.db.dbretail ?}'
+    rtorrent:
+      uri: scgi://localhost:5000
+      path: /data/tmp
+    template:
+      - danish_subs
+  tv:
+    rss: '{? rss.db.tv ?}'
+    rtorrent:
+      uri: scgi://localhost:5000
+      path: /data/tmp
+    template:
+      - danish_subs
+  danish:
+    rss: '{? rss.db.danish ?}'
+    rtorrent:
+      uri: scgi://localhost:5000
+      path: /data/tmp
+    template:
+      - danish
+schedules:
+  - tasks: [substance, dbretail, tv, danish]
+    interval:
+      minutes: 15
+  - tasks: [unrar-series, sync-series]
+    interval:
+      hours: 2

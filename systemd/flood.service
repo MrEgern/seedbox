@@ -1,0 +1,13 @@
+[Service]
+WorkingDirectory=/home/box/flood
+ExecStart=/usr/bin/npm start
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=notell
+User=box
+Group=box
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

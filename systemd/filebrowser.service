@@ -1,0 +1,9 @@
+[Service]
+Type=simple
+User=box
+Group=box
+ExecStart=/usr/local/bin/filebrowser -r /home/box/ -d /home/box/filebrowser.db -p 8080
+TimeoutStartSec=0
+Restart=always
+[Install]
+WantedBy=multi-user.target

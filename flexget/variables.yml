@@ -1,0 +1,6 @@
+rss:
+  db: 
+    substance: 'https://danishbits.org/rss.php?id=30&auth=AUTH&passkey=PASSKEY&authkey=AUTHKEY'
+    dbretail: 'https://danishbits.org/rss.php?id=1&auth=AUTH&passkey=PASSKEY&authkey=AUTHKEY'
+    tv: 'https://danishbits.org/rss.php?id=20&auth=AUTH&passkey=PASSKEY&authkey=AUTHKEY'
+    danish: 'https://danishbits.org/rss.php?id=4&auth=AUTH&passkey=PASSKEY&authkey=AUTHKEY'
