@@ -26,7 +26,7 @@ chmod +x setup.sh
 2. Gå til https://file.example.com/files/flexget/variables.yml
 3. Ændre `trakt: 'ninstaah'` til dit eget brugernavn på trakt.tv
 4. Åben tab med https://danishbits.org/rss.php
-5. Kopier links fra step 2 til deres pladser i flexget/variables.yml (step 1)
+5. Kopier links fra step 4 til deres pladser i flexget/variables.yml (step 2)
 6. Gem https://file.example.com/files/flexget/variables.yml)
 7. Gå til https://file.example.com/files/flexget/config.yml)
 8. I terminalen skal du godkende flexget hos trakt.tv: `flexget trakt auth ninstaah` (brug dit brugernavn!)
