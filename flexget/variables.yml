@@ -1,3 +1,4 @@
+trakt: 'ninstaah'
 db:
   rapidcows: 'https://danishbits.org/rss.php?id=2'
   dbretail: 'https://danishbits.org/rss.php?id=1'

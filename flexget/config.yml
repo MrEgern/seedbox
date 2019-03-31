@@ -16,8 +16,8 @@ templates:
     configure_series:
       from:
         trakt_list:
-          username: ninstaah
-          account: ninstaah
+          username: '{ trakt }'
+          account: '{ trakt }'
           list: serier
           type: shows
       settings:
@@ -27,8 +27,8 @@ tasks:
   trakt:
     priority: 1
     trakt_list:
-      username: ninstaah
-      account: ninstaah
+      username: '{ trakt }'
+      account: '{ trakt }'
       list: film
       type: movies
     accept_all: yes
