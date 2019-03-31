@@ -101,13 +101,3 @@ certbot --nginx -d file.$DOMAIN --non-interactive --agree-tos --register-unsafel
 echo -e "### Opsætning af Plex"
 echo -e "ssh root@$(curl -s ifconfig.me) -L 8888:localhost:32400"
 echo -e "Gå til http://localhost:8888/web"
-
-echo -e "### Opsætning af Flexget"
-echo -e "1. Gå til https://file.$DOMAIN (admin/admin - husk at ændre dette!)"
-echo -e "2. Gå til https://file.$DOMAIN/files/flexget/variables.yml"
-echo -e "3. Åben tab med https://danishbits.org/rss.php"
-echo -e "4. Kopier links fra step 2 til deres pladser i flexget/variables.yml (step 1)"
-echo -e "5. Gem https://file.$DOMAIN/files/flexget/variables.yml)"
-echo -e "6. Gå til https://file.$DOMAIN/files/flexget/config.yml)"
-echo -e "7. Indsæt trakt.tv brugernavn og serie liste"
-echo -e "8. Gem filen og vent på Flexget genindlæser config.yml"
