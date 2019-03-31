@@ -17,7 +17,7 @@ chown box:box /data -R
 
 # Rtorrent
 su - box -c 'wget -O .rtorrent.rc https://github.com/ninstaah/seedbox/raw/master/rtorrent/rtorrent.rc'
-su - box -c 'mkdir .rtorrent downloads torrents'
+su - box -c 'mkdir -p .rtorrent downloads torrents'
 wget -O /etc/systemd/system/rtorrent.service https://github.com/ninstaah/seedbox/raw/master/systemd/rtorrent.service
 systemctl enable rtorrent
 systemctl start rtorrent
@@ -55,8 +55,8 @@ python3.7 -m pip install --upgrade pip
 # Flexget
 pip install flexget rarfile
 su - box -c 'mkdir flexget/'
-su - box -c 'wget -O flexget/config.yml https://github.com/ninstaah/seedbox/raw/master/config.yml'
-su - box -c 'wget -O flexget/variables.yml https://github.com/ninstaah/seedbox/raw/master/variables.yml'
+su - box -c 'wget -O flexget/config.yml https://github.com/ninstaah/seedbox/raw/master/flexget/config.yml'
+su - box -c 'wget -O flexget/variables.yml https://github.com/ninstaah/seedbox/raw/master/flexget/variables.yml'
 su - box -c 'cd ~/flexget/ && flexget daemon start -d --autoreload-config'
 
 
@@ -68,8 +68,7 @@ systemctl enable filebrowser
 systemctl restart filebrowser
 
 # Domæne opsætning
-echo -e "\nIndtast domæne (example.com):"
-read DOMAIN
+read -p "Indtast domæne: " DOMAIN
 
 sed -i "s/example.com/$DOMAIN/g" /etc/nginx/conf.d/plex.conf
 sed -i "s/example.com/$DOMAIN/g" /etc/nginx/conf.d/flood.conf
