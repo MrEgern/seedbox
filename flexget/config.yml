@@ -2,7 +2,7 @@ variables: variables.yml
 
 templates:
   tv:
-    quality: 720p|1080p HDTV|bluray
+    quality: 720p|1080p
     exists_series:
       - '/data/serier/{{series_name}}'
     set:
@@ -17,15 +17,17 @@ templates:
       from:
         trakt_list:
           username: ninstaah
+          account: ninstaah
           list: serier
           type: shows
       settings:
         propers: no
 
 tasks:
-  film:
+  trakt:
     priority: 1
     trakt_list:
+      username: ninstaah
       account: ninstaah
       list: film
       type: movies
@@ -33,9 +35,9 @@ tasks:
     list_add:
       - movie_list: film_list 
 
-  film_dl:
+  rapidcows:
     priority: 2
-    rss: '{? rss.db.c2 ?}'
+    rss: '{? db.rapidcows ?}'
     quality: 1080p
     imdb_lookup: yes
     list_match:
@@ -45,38 +47,34 @@ tasks:
       uri: scgi://localhost:5000
       path: /data/film/
 
-  serier_tv:
-    priority: 3
+  dbretail:
     template: tv-queue-request
-    rss: '{? rss.db.c20 ?}'
+    rss: '{? db.dbretail ?}'
     rtorrent:
       uri: scgi://localhost:5000
 
-  serier_tv_dansk:
-    priority: 4
+  substance:
     template: tv-queue-request
-    rss: '{? rss.db.c4 ?}'
+    rss: '{? db.substance ?}'
     rtorrent:
       uri: scgi://localhost:5000
 
-  serier_tv_dbretail:
-    priority: 5
+  dktv:
     template: tv-queue-request
-    rss: '{? rss.db.c1 ?}'
+    rss: '{? db.dktv ?}'
     rtorrent:
       uri: scgi://localhost:5000
 
-  serier_tv_substance:
-    priority: 6
+  tv:
     template: tv-queue-request
-    rss: '{? rss.db.c30 ?}'
+    rss: '{? db.tv ?}'
     rtorrent:
       uri: scgi://localhost:5000
-  
+
 schedules:
-  - tasks: [film_dl, serier_tv, serier_tv_dansk, serier_tv_dbretail, serier_tv_substance, ]
+  - tasks: [dbretail, substance, dktv, tv]
     interval:
       minutes: 15
-  - tasks: [film]
+  - tasks: [trakt, rapidcows]
     interval:
       hours: 1

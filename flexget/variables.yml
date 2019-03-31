@@ -1,7 +1,6 @@
-rss:
-  db: 
-    c1: 'https://danishbits.org/rss.php'
-    c2: 'https://danishbits.org/rss.php'
-    c4: 'https://danishbits.org/rss.php'
-    c20: 'https://danishbits.org/rss.php'
-    c30: 'https://danishbits.org/rss.php'
+db:
+  rapidcows: 'https://danishbits.org/rss.php?id=2'
+  dbretail: 'https://danishbits.org/rss.php?id=1'
+  substance: 'https://danishbits.org/rss.php?id=30'
+  dktv: 'https://danishbits.org/rss.php?id=4'
+  tv: 'https://danishbits.org/rss.php?id=20'
