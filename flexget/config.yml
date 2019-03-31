@@ -2,7 +2,7 @@ variables: variables.yml
 
 templates:
   tv:
-    quality: 720p|1080p
+    quality: 720p|1080p HDTV|bluray
     exists_series:
       - '/data/serier/{{series_name}}'
     set:
