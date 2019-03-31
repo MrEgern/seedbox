@@ -35,7 +35,7 @@ tasks:
 
   film_dl:
     priority: 2
-    rss: '{? rss.db.film-rapidcows ?}'
+    rss: '{? rss.db.c2 ?}'
     quality: 1080p
     imdb_lookup: yes
     list_match:
@@ -48,28 +48,28 @@ tasks:
   serier_tv:
     priority: 3
     template: tv-queue-request
-    rss: '{? rss.db.tv ?}'
+    rss: '{? rss.db.c20 ?}'
     rtorrent:
       uri: scgi://localhost:5000
 
   serier_tv_dansk:
     priority: 4
     template: tv-queue-request
-    rss: '{? rss.db.tv-dansk ?}'
+    rss: '{? rss.db.c4 ?}'
     rtorrent:
       uri: scgi://localhost:5000
 
   serier_tv_dbretail:
     priority: 5
     template: tv-queue-request
-    rss: '{? rss.db.tv-dbretail ?}'
+    rss: '{? rss.db.c1 ?}'
     rtorrent:
       uri: scgi://localhost:5000
 
   serier_tv_substance:
     priority: 6
     template: tv-queue-request
-    rss: '{? rss.db.tv-substance ?}'
+    rss: '{? rss.db.c30 ?}'
     rtorrent:
       uri: scgi://localhost:5000
   

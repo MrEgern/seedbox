@@ -1,7 +1,7 @@
 rss:
   db: 
-    tv: 'https://danishbits.org/rss.php'
-    tv-dansk: 'https://danishbits.org/rss.php'
-    tv-substance: 'https://danishbits.org/rss.php'
-    tv-dbretail: 'https://danishbits.org/rss.php'
-    film-rapidcows: 'https://danishbits.org/rss.php'
+    c1: 'https://danishbits.org/rss.php'
+    c2: 'https://danishbits.org/rss.php'
+    c4: 'https://danishbits.org/rss.php'
+    c20: 'https://danishbits.org/rss.php'
+    c30: 'https://danishbits.org/rss.php'
