@@ -1,4 +1,4 @@
-# Ninstaah præsentere Moderne Seedbox løsning!
+# MrEgern præsentere Moderne Seedbox løsning!
 *Installation via denne kommando (CentOS 7, Hetzner)*
  
 ```
