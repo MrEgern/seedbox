@@ -24,7 +24,7 @@ chown box:box /data -R
 
 # Rtorrent
 if [ ! -f /home/box/.rtorrent.rc ]; then
-	su - box -c 'wget -O .rtorrent.rc https://github.com/ninstaah/seedbox/raw/master/rtorrent/rtorrent.rc'
+	su - box -c 'wget -O .rtorrent.rc https://github.com/MrEgern/seedbox/raw/master/rtorrent/rtorrent.rc'
 	su - box -c 'mkdir -p .rtorrent downloads torrents'
 fi
 
@@ -64,8 +64,8 @@ fi
 
 if [ ! -d /home/box/flexget ]; then
 	su - box -c 'mkdir -p flexget/'
-	su - box -c 'wget -O flexget/config.yml https://github.com/ninstaah/seedbox/raw/master/flexget/config.yml'
-	su - box -c 'wget -O flexget/variables.yml https://github.com/ninstaah/seedbox/raw/master/flexget/variables.yml'
+	su - box -c 'wget -O flexget/config.yml https://github.com/MrEgern/seedbox/raw/master/flexget/config.yml'
+	su - box -c 'wget -O flexget/variables.yml https://github.com/MrEgern/seedbox/raw/master/flexget/variables.yml'
 	su - box -c 'cd ~/flexget/ && flexget daemon start -d --autoreload-config'
 fi
 
@@ -75,14 +75,14 @@ if [ ! -f /usr/local/bin/filebrowser ]; then
 fi
 
 # NGINX conf files
-wget -O /etc/nginx/conf.d/flood.conf https://github.com/ninstaah/seedbox/raw/master/nginx/flood.conf
-wget -O /etc/nginx/conf.d/plex.conf https://github.com/ninstaah/seedbox/raw/master/nginx/plex.conf
-wget -O /etc/nginx/conf.d/filebrowser.conf https://github.com/ninstaah/seedbox/raw/master/nginx/filebrowser.conf
+wget -O /etc/nginx/conf.d/flood.conf https://github.com/MrEgern/seedbox/raw/master/nginx/flood.conf
+wget -O /etc/nginx/conf.d/plex.conf https://github.com/MrEgern/seedbox/raw/master/nginx/plex.conf
+wget -O /etc/nginx/conf.d/filebrowser.conf https://github.com/MrEgern/seedbox/raw/master/nginx/filebrowser.conf
 
 # Systemd service files
-wget -O /etc/systemd/system/rtorrent.service https://github.com/ninstaah/seedbox/raw/master/systemd/rtorrent.service
-wget -O /etc/systemd/system/flood.service https://github.com/ninstaah/seedbox/raw/master/systemd/flood.service
-wget -O /etc/systemd/system/filebrowser.service https://github.com/ninstaah/seedbox/raw/master/systemd/filebrowser.service
+wget -O /etc/systemd/system/rtorrent.service https://github.com/MrEgern/seedbox/raw/master/systemd/rtorrent.service
+wget -O /etc/systemd/system/flood.service https://github.com/MrEgern/seedbox/raw/master/systemd/flood.service
+wget -O /etc/systemd/system/filebrowser.service https://github.com/MrEgern/seedbox/raw/master/systemd/filebrowser.service
 
 systemctl enable --now rtorrent flood filebrowser plexmediaserver nginx
 systemctl start rtorrent flood filebrowser plexmediaserver nginx
