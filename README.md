@@ -2,7 +2,7 @@
 *Installation via denne kommando (CentOS 7, Hetzner)*
  
 ```
-wget https://raw.githubusercontent.com/ninstaah/seedbox/master/setup.sh
+wget https://raw.githubusercontent.com/MrEgern/seedbox/master/setup.sh
 chmod +x setup.sh
 ./setup.sh
 ```
@@ -29,4 +29,4 @@ chmod +x setup.sh
 5. Kopier links fra step 4 til deres pladser i flexget/variables.yml (step 2)
 6. Gem https://file.example.com/files/flexget/variables.yml)
 7. Gå til https://file.example.com/files/flexget/config.yml)
-8. I terminalen skal du godkende flexget hos trakt.tv: `flexget trakt auth ninstaah` (brug dit brugernavn!)
+8. I terminalen skal du godkende flexget hos trakt.tv: `flexget trakt auth bruger123` (brug dit brugernavn!)
