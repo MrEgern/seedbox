@@ -66,7 +66,9 @@ if [ ! -d /home/box/flexget ]; then
 	su - box -c 'mkdir -p flexget/'
 	su - box -c 'wget -O flexget/config.yml https://github.com/MrEgern/seedbox/raw/master/flexget/config.yml'
 	su - box -c 'wget -O flexget/variables.yml https://github.com/MrEgern/seedbox/raw/master/flexget/variables.yml'
-	su - box -c 'cd ~/flexget/ && flexget daemon start -d --autoreload-config'
+	su - box -c 'wget -O flexget/worker.sh https://github.com/MrEgern/seedbox/raw/master/flexget/worker.sh'
+	su - box -c 'echo -e "3 * * * * /home/box/flexget/worker.sh film" >> /var/spool/cron/box'
+	su - box -c 'echo -e "*/5 * * * * /home/box/flexget/worker.sh serier" >> /var/spool/cron/box'
 fi
 
 # Filebrowser
